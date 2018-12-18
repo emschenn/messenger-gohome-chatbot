@@ -2,7 +2,8 @@ import requests
 
 
 GRAPH_URL = "https://graph.facebook.com/v2.6"
-ACCESS_TOKEN = "EAAjhZBuIzJYoBAHhtYTv2XQZAE5eZBEmTBODJSeLx2wvmK4ti3RqhoHQOkBQGfHMhP9YtMcZCeHIIyflNb0wU18LZA9Psi1OeEvrilxsZA5ZBcXPCgdlTK0yR63Wo6wlxzVN7Hur0CKXJrSZCSQZBTMDArKzi7cMXcAqIGljwq6pGIwZDZD"
+ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
+#"EAAjhZBuIzJYoBAHhtYTv2XQZAE5eZBEmTBODJSeLx2wvmK4ti3RqhoHQOkBQGfHMhP9YtMcZCeHIIyflNb0wU18LZA9Psi1OeEvrilxsZA5ZBcXPCgdlTK0yR63Wo6wlxzVN7Hur0CKXJrSZCSQZBTMDArKzi7cMXcAqIGljwq6pGIwZDZD"
 
 def send_postback(id):
     url = "{0}/me/messages?access_token={1}".format(GRAPH_URL,ACCESS_TOKEN)
