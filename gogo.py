@@ -4,7 +4,6 @@ from selenium import webdriver
 import datetime
 import re
 import sqlite3
-
 def transform2(station):
     if station == "台北" or station == "臺北": 
         return "977abb69-413a-4ccf-a109-0272c24fd490"
@@ -109,6 +108,7 @@ def savedata(a):
     c = conn.cursor()
     c.execute('REPLACE INTO setting VALUES(?,?,?,?)',(1,b[0],b[1],b[2]))
     conn.commit()
+    print("yaya")
     return True
 
 #a = "台南\n台北\n火車"

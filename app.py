@@ -7,52 +7,50 @@ VERIFY_TOKEN = "emschenn"
 machine = TocMachine(
     states=[
         'user',
-        'state1', #start
-        'state2', #setting
-	'state3', #go home
-	'state4', #go school
+        'start', #start
+        'setting', #setting
+        'done',
+	'goHome', #go home
+	'toSchool', #go school
     ],
     transitions=[
         {
             'trigger': 'advance',
             'source': 'user',
-            'dest': 'state1',
-            'conditions': 'is_going_to_state1'
+            'dest': 'start',
+            'conditions': 'is_going_to_start'
         },
         {
             'trigger': 'advance',
-            'source': [
-		'state1',
-		'user'
-	    ],
-            'dest': 'state2',
-            'conditions': 'is_going_to_state2'
+            'source': 'user',
+            'dest': 'setting',
+            'conditions': 'is_going_to_setting'
         },
 	{
             'trigger': 'advance',
-            'source': [
-		'state2',
-		'user'
-	    ],
-            'dest': 'state3',
-            'conditions': 'is_going_to_state3'
+            'source': 'user',
+            'dest': 'goHome',
+            'conditions': 'is_going_to_goHome'
         },
 	{
             'trigger': 'advance',
-            'source': [
-		'state2',
-		'user'
-	    ],
-            'dest': 'state4',
-            'conditions': 'is_going_to_state4'
+            'source': 'user',
+            'dest': 'toSchool',
+            'conditions': 'is_going_to_toSchool'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'setting',
+            'dest': 'done',
+            'conditions': 'is_going_to_done'
         },
         {
             'trigger': 'go_back',
             'source': [
-                'state1',
-                'state2',
-		'state3',
-		'state4'
+                'toSchool',
+                'goHome',
+                'done',
+                'start'
             ],
             'dest': 'user'
         }
