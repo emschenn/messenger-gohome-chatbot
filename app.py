@@ -59,8 +59,8 @@ machine = TocMachine(
         }
     ],
     initial='user',
-#    auto_transitions=False,
-#    show_conditions=True,
+    auto_transitions=False,
+    show_conditions=True,
 )
 
 
