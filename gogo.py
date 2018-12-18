@@ -5,9 +5,34 @@ import datetime
 import re
 import sqlite3
 
+def transform2(station):
+    if station == "台北" or station == "臺北": 
+        return "977abb69-413a-4ccf-a109-0272c24fd490"
+    elif station == "南港" :
+        return "2f940836-cedc-41ef-8e28-c2336ac8fe68"
+    elif station == "板橋" :
+        return "e6e26e66-7dc1-458f-b2f3-71ce65fdc95f"
+    elif station == "桃園" :
+        return "fbd828d8-b1da-4b06-a3bd-680cdca4d2cd"
+    elif station == "新竹" :
+        return "a7a04c89-900b-4798-95a3-c01c455622f4"
+    elif station == "苗栗" :
+        return "e8fc2123-2aaf-46ff-ad79-51d4002a1ef3"
+    elif station == "台中" or station == "臺中" :
+        return "3301e395-46b8-47aa-aa37-139e15708779"
+    elif station == "彰化" :
+        return "38b8c40b-aef0-4d66-b257-da96ec51620e"
+    elif station == "雲林" :
+        return "5f4c7bb0-c676-4e39-8d3c-f12fc188ee5f"
+    elif station == "台南" or station == "臺南":
+        return "9c5ac6ca-ec89-48f8-aab0-41b738cb1814"
+    elif station == "嘉義" :
+        return "60831846-f0e4-47f6-9b5b-46323ebdcef"
+    elif station == "左營" :
+        return "f2519629-5973-4d08-913b-479cce78a356"
+    else:
+        return "0"
 
-#fromstation = "台南"
-#tostation = "高雄"
 def transform(station):
     if station == "台北" or station == "臺北": 
         return "1008"
@@ -68,12 +93,16 @@ def savedata(a):
     b = a.splitlines()
     if len(b) != 3:
         return False
-    if transform(b[0]) == 0:
-        return False
-    if transform(b[1]) == 0:
-        return False
-    if b[2] == "火車" or b[2] == "客運":
-       print("data correct")
+    if b[2] == "火車":
+        if transform(b[0]) == 0:
+            return False
+        if transform(b[1]) == 0:
+            return False
+    elif b[2] == "高鐵":
+        if transform2(b[0]) == 0:
+            return False
+        if transform2(b[1]) == 0:
+            return False
     else:
        return False
     conn = sqlite3.connect('user')
@@ -82,12 +111,13 @@ def savedata(a):
     conn.commit()
     return True
 
-#a = "台南\n高雄\n火車"
+#a = "台南\n台北\n火車"
 #savedata(a)
 
 
 def to_matrix(l,n):
     return [l[i:i+n] for i in range(0,len(l),n)]
+
 
 def trainsearch(a):
     conn = sqlite3.connect('user')
@@ -132,5 +162,62 @@ def trainsearch(a):
 #trainsearch(fromstation, tostation)
 c = "回家"
 d = "回學校"
-trainsearch(c)
 #trainsearch(d)
+def thsrcsearch(a):
+    conn = sqlite3.connect('user')
+    c = conn.cursor()
+    c.execute('SELECT * FROM setting')
+    d = c.fetchone()
+    if a == "回家":
+        fromstation = d[2]
+        tostation = d[1]
+    elif a == "回學校":
+        fromstation = d[1]
+        tostation = d[2]
+    fromstation = transform2(fromstation)
+    tostation = transform2(tostation)
+    searchdate = datetime.datetime.now().strftime("%Y/%m/")
+    date = datetime.datetime.now().strftime("%d")
+    fromtime = datetime.datetime.now().strftime("%H")+":00"
+    searchdate = searchdate+date.zfill(2)
+    url = 'http://m.thsrc.com.tw/tw/TimeTable/SearchResult'
+    form_data = {
+        'startStation':fromstation,
+        'endStation':tostation,
+        'theDay':searchdate,
+        'timeSelect':fromtime,
+        'waySelect':'DepartureInMandarin'
+    }
+    response_post = requests.post(url,data = form_data)
+    soup = BeautifulSoup(response_post.text, 'lxml')
+    soup = soup.find('div','timeResultList ui-grid-b')
+    string = str(soup.findAll('a'))
+    string = re.sub(u"\\<.*?\\>","",string)
+    string = re.sub(u"\\(.*?\\)","",string)
+    string = ' '.join(string.split())
+    string = string.split(',')
+    string = to_matrix(string,3)
+    result = ""
+    res = "  車次  出發-抵達   自由車廂數\n--------------------------\n"
+    for l in string:
+        result += " ".join(map(str,l))+"\n"
+    result = result.replace(" ( "," (")
+    result = result.replace(" - ","-")
+    result = result.replace(" ) ",")")
+    result = result.replace("[","")
+    result = result.replace("]","")
+    result = res + result
+    print(result)
+    return(result)
+#trainsearch(c)
+#thsrcsearch(c)
+def search(a):
+    conn = sqlite3.connect('user')
+    c = conn.cursor()
+    c.execute('SELECT * FROM setting')
+    d = c.fetchone()
+    if d[3] == "火車":
+        return trainsearch(a)
+    elif d[3] == "高鐵":
+        return thsrcsearch(a)
+
