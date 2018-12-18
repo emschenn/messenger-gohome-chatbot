@@ -4,10 +4,10 @@ from gogo import *
 
 class TocMachine(GraphMachine):
 
-    def __init__(self):
+    def __init__(self,machine_configs):
         self.machine = GraphMachine(
             model=self,
-        #    **machine_configs
+            **machine_configs
         )
     def is_going_to_start(self, event):
         if event.get("message"):
