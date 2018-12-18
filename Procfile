@@ -1,1 +1,2 @@
-    web: gunicorn emschen-toc.wsgi
+    web: gunicorn app:app
+    
