@@ -117,6 +117,7 @@ def savetrans(a):
         c = conn.cursor()
         c.execute('REPLACE INTO setting VALUES(?,?,?,?)',(1,"","",a))
         conn.commit()
+        return True
     else:
         return False
 
@@ -133,6 +134,7 @@ def savehome(a):
             return False
     c.execute('REPLACE INTO setting VALUES(?,?,?,?)',(1,a,"",d[3]))
     conn.commit()
+    return True
 
 def saveschool(a):
     conn = sqlite3.connect('user')
@@ -147,6 +149,7 @@ def saveschool(a):
             return False
     c.execute('REPLACE INTO setting VALUES(?,?,?,?)',(1,d[1],a,d[3]))
     conn.commit()
+    return True
 
 #a = "台南\n台北\n火車"
 #savedata(a)
