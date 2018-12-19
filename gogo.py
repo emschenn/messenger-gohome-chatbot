@@ -220,4 +220,4 @@ def search(a):
         return trainsearch(a)
     elif d[3] == "高鐵":
         return thsrcsearch(a)
-search(d)
+#search(d)
