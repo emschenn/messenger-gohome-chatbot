@@ -6,7 +6,7 @@ import os
 app = Bottle()
 VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
 PORT = os.environ['PORT']
-
+#VERIFY_TOKEN = "emschenn"
 machine = TocMachine(
     states=[
         'user',
@@ -57,7 +57,7 @@ machine = TocMachine(
         },
         {
             'trigger': 'advance',
-            'source': 'sethome',
+            'source': 'setschool',
             'dest': 'done',
             'conditions': 'is_going_to_done'
         },
@@ -91,7 +91,6 @@ def setup_webhook():
     else:
         abort(403)
 
-
 @app.route("/webhook", method="POST")
 def webhook_handler():
     body = request.json
@@ -105,7 +104,7 @@ def webhook_handler():
         return 'OK'
 
 
-@route('/show-fsm', methods=['GET'])
+@app.route('/show-fsm', methods=['GET'])
 def show_fsm():
     machine.get_graph().draw('fsm.png', prog='dot', format='png')
     return static_file('fsm.png', root='./', mimetype='image/png')
