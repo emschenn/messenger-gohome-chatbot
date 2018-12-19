@@ -37,7 +37,7 @@ class TocMachine(GraphMachine):
         print("I'm entering state2")
         #global set_flag = 1
         sender_id = event['sender']['id']
-        send_text_message(sender_id, "請輸入搭乘之交通工具（高鐵/火車）")
+        send_text_message(sender_id, "請輸入搭乘之交通工具\n（高鐵or火車）")
        # self.go_back()
     def on_exit_settrans(self, event):
         print('Leaving state2')
