@@ -24,7 +24,7 @@ class TocMachine(GraphMachine):
         print('Leaving state1')
 
 
-    def is_going_to_setting(self, event):
+    def is_going_to_settrans(self, event):
         if event.get("postback"):
             if event['postback'].get('payload'):
                 text = event['postback']['payload']
@@ -33,19 +33,47 @@ class TocMachine(GraphMachine):
             text = event['message']['text']
             return text == "設定"
         return False
-    def on_enter_setting(self, event):
+    def on_enter_settrans(self, event):
         print("I'm entering state2")
         #global set_flag = 1
         sender_id = event['sender']['id']
-        send_text_message(sender_id, "請依照下列格式做設定ㄛ～\nex:\n高雄（輸入你家的站）\n台南（輸入你學校的站）\n火車（搭乘高鐵/火車）")
+        send_text_message(sender_id, "請輸入搭乘之交通工具（高鐵/火車）")
        # self.go_back()
-    def on_exit_setting(self, event):
+    def on_exit_settrans(self, event):
+        print('Leaving state2')
+
+    def is_going_to_sethome(self, event):
+        if event.get("message"):
+            text = event['message']['text']
+            return savetrans(text)
+        return False
+    def on_enter_sethome(self, event):
+        print("I'm entering state2")
+        #global set_flag = 1
+        sender_id = event['sender']['id']
+        send_text_message(sender_id, "請輸入你家的站名")
+       # self.go_back()
+    def on_exit_sethome(self, event):
+        print('Leaving state2')
+
+    def is_going_to_setschool(self, event):
+        if event.get("message"):
+            text = event['message']['text']
+            return savehome(text)
+        return False
+    def on_enter_setschool(self, event):
+        print("I'm entering state2")
+        #global set_flag = 1
+        sender_id = event['sender']['id']
+        send_text_message(sender_id, "請輸入你學校的站名")
+       # self.go_back()
+    def on_exit_setschool(self, event):
         print('Leaving state2')
 
     def is_going_to_done(self, event):
         if event.get("message"):
             text = event['message']['text']
-            return savedata(text)
+            return saveschool(text)
         return False
     def on_enter_done(self, event):
         print("I'm entering state2")

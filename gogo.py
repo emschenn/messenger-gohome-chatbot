@@ -111,6 +111,43 @@ def savedata(a):
     print("yaya")
     return True
 
+def savetrans(a):
+    if a == "火車" or a =="高鐵":
+        conn = sqlite3.connect('user')
+        c = conn.cursor()
+        c.execute('REPLACE INTO setting VALUES(?,?,?,?)',(1,"","",a))
+        conn.commit()
+    else:
+        return False
+
+def savehome(a):
+    conn = sqlite3.connect('user')
+    c = conn.cursor()
+    c.execute('SELECT * FROM setting')
+    d = c.fetchone()
+    if d[3] == "高鐵":
+        if transform2(a) == 0:
+            return False
+    elif d[3] == "火車":
+        if transform(a) == 0:
+            return False
+    c.execute('REPLACE INTO setting VALUES(?,?,?,?)',(1,a,"",d[3]))
+    conn.commit()
+
+def saveschool(a):
+    conn = sqlite3.connect('user')
+    c = conn.cursor()
+    c.execute('SELECT * FROM setting')
+    d = c.fetchone()
+    if d[3] == "高鐵":
+        if transform2(a) == 0:
+            return False
+    elif d[3] == "火車":
+        if transform(a) == 0:
+            return False
+    c.execute('REPLACE INTO setting VALUES(?,?,?,?)',(1,d[1],a,d[3]))
+    conn.commit()
+
 #a = "台南\n台北\n火車"
 #savedata(a)
 

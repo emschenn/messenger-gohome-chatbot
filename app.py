@@ -11,7 +11,9 @@ machine = TocMachine(
     states=[
         'user',
         'start', #start
-        'setting', #setting
+        'settrans', #setting
+        'sethome',
+        'setschool',
         'done',
 	'goHome', #go home
 	'toSchool', #go school
@@ -26,8 +28,8 @@ machine = TocMachine(
         {
             'trigger': 'advance',
             'source': 'user',
-            'dest': 'setting',
-            'conditions': 'is_going_to_setting'
+            'dest': 'settrans',
+            'conditions': 'is_going_to_settrans'
         },
 	{
             'trigger': 'advance',
@@ -43,7 +45,19 @@ machine = TocMachine(
         },
         {
             'trigger': 'advance',
-            'source': 'setting',
+            'source': 'settrans',
+            'dest': 'sethome',
+            'conditions': 'is_going_to_sethome'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'sethome',
+            'dest': 'setschool',
+            'conditions': 'is_going_to_setschool'
+        },
+        {
+            'trigger': 'advance',
+            'source': 'sethome',
             'dest': 'done',
             'conditions': 'is_going_to_done'
         },
