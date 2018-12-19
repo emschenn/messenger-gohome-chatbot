@@ -20,6 +20,6 @@
 * **Deploy using heroku**
 
 ## ChatBot DEMO
-此 DEMO 顯示**start** -> 設定為火車往返台南高雄兩地之結果 -> 設定為高鐵往返台南左營兩地之結果 
+此 DEMO 顯示初始狀態 -> 設定為火車往返台南高雄兩地之結果 -> 設定為高鐵往返台南左營兩地之結果 
 ![demo](https://github.com/emschenn/TOC-Project/blob/master/demo.jpg)
 
