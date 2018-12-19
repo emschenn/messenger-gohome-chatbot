@@ -59,6 +59,8 @@ def transform(station):
         return "1211"
     elif station == "嘉義" :
         return "1215"
+    elif station == "沙崙" :
+        return "5102"
     elif station == "新營" :
         return "1220"
     elif station == "永康" :
