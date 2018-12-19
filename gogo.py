@@ -115,7 +115,7 @@ def savetrans(a):
     if a == "火車" or a =="高鐵":
         conn = sqlite3.connect('user')
         c = conn.cursor()
-        c.execute('REPLACE INTO setting VALUES(?,?,?,?)',(1,"","",a))
+        c.execute('REPLACE INTO setting VALUES(?,?,?,?)',(1,"0","0",a))
         conn.commit()
         return True
     else:
@@ -132,7 +132,7 @@ def savehome(a):
     elif d[3] == "火車":
         if transform(a) == 0:
             return False
-    c.execute('REPLACE INTO setting VALUES(?,?,?,?)',(1,a,"",d[3]))
+    c.execute('REPLACE INTO setting VALUES(?,?,?,?)',(1,a,"0",d[3]))
     conn.commit()
     return True
 
