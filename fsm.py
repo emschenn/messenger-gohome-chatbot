@@ -10,7 +10,7 @@ class TocMachine(GraphMachine):
             **machine_configs
         )
     def is_going_to_start(self, event):
-        if event.get("message"):
+        if event.get("message") and event['message'].get("text"):
             text = event['message']['text']
             return True
         return False
@@ -29,7 +29,7 @@ class TocMachine(GraphMachine):
             if event['postback'].get('payload'):
                 text = event['postback']['payload']
                 return text == "設定"
-        if event.get("message"):
+        if event.get("message")  and event['message'].get("text"):
             text = event['message']['text']
             return text == "設定"
         return False
@@ -43,7 +43,7 @@ class TocMachine(GraphMachine):
         print('Leaving state2')
 
     def is_going_to_sethome(self, event):
-        if event.get("message"):
+        if event.get("message") and event['message'].get("text"):
             text = event['message']['text']
             return savetrans(text)
         return False
@@ -57,7 +57,7 @@ class TocMachine(GraphMachine):
         print('Leaving state2')
 
     def is_going_to_setschool(self, event):
-        if event.get("message"):
+        if event.get("message") and event['message'].get("text"):
             text = event['message']['text']
             return savehome(text)
         return False
@@ -71,7 +71,7 @@ class TocMachine(GraphMachine):
         print('Leaving state2')
 
     def is_going_to_done(self, event):
-        if event.get("message"):
+        if event.get("message") and event['message'].get("text"):
             text = event['message']['text']
             return saveschool(text)
         return False
@@ -90,7 +90,7 @@ class TocMachine(GraphMachine):
             if event['postback'].get('payload'):
                 text = event['postback']['payload']
                 return text == "回家"
-        if event.get("message"):
+        if event.get("message") and event['message'].get("text"):
             text = event['message']['text']
             return text == "回家"
         return False
@@ -108,7 +108,7 @@ class TocMachine(GraphMachine):
             if event['postback'].get('payload'):
                 text = event['postback']['payload']
                 return text == "回學校"
-        if event.get("message"):
+        if event.get("message") and event['message'].get("text"):
             text = event['message']['text']
             return text == "回學校"
         return False
