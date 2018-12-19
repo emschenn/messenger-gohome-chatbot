@@ -64,7 +64,7 @@ machine = TocMachine(
 )
 
 
-@app.route("/webhook", method="GET")
+@app.route("/", method="GET")
 def setup_webhook():
     mode = request.GET.get("hub.mode")
     token = request.GET.get("hub.verify_token")
@@ -78,7 +78,7 @@ def setup_webhook():
         abort(403)
 
 
-@app.route("/webhook", method="POST")
+@app.route("/", method="POST")
 def webhook_handler():
     body = request.json
     print('\nFSM STATE: ' + machine.state)
