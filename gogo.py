@@ -162,7 +162,7 @@ def trainsearch(a):
 #trainsearch(fromstation, tostation)
 c = "回家"
 d = "回學校"
-#trainsearch(d)
+
 def thsrcsearch(a):
     conn = sqlite3.connect('user')
     c = conn.cursor()
@@ -220,4 +220,4 @@ def search(a):
         return trainsearch(a)
     elif d[3] == "高鐵":
         return thsrcsearch(a)
-
+search(d)
